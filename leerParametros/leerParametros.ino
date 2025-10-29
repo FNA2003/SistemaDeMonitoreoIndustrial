@@ -40,7 +40,7 @@
 
 // Pantalla I2C 20x4
 // CARGAR la dirección de la pantalla en el primer parámetro
-LiquidCrystal_I2C lcd(0X20, 20, 4);
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 
 // Intervalo de cambio de parámetros (ms)
 const unsigned long INTERVALO = 5000UL;
@@ -130,27 +130,27 @@ void mostrarLectura(uint8_t id) {
     return;
   }
 
-	// Sensor PZEM 1
-	pzem1Serial.listen();
-	valor = (pzem1.*metodos[id])();
-	lcd.setCursor(0, 1);
-	lcd.print("R: ");
-	lcd.print(valor, 1); // Máxima resolución 1 decimal
-	lcd.print(unidades[id]);
+  // Sensor PZEM 1
+  pzem1Serial.listen();
+  valor = (pzem1.*metodos[id])();
+  lcd.setCursor(0, 1);
+  lcd.print("R: ");
+  lcd.print(valor, 1); // Máxima resolución 1 decimal
+  lcd.print(unidades[id]);
 
-	// Sensor PZEM 2
-	pzem2Serial.listen();
-	valor = (pzem2.*metodos[id])();
-	lcd.setCursor(0, 2);
-	lcd.print("S: ");
-	lcd.print(valor, 1);
-	lcd.print(unidades[id]);
+  // Sensor PZEM 2
+  pzem2Serial.listen();
+  valor = (pzem2.*metodos[id])();
+  lcd.setCursor(0, 2);
+  lcd.print("S: ");
+  lcd.print(valor, 1);
+  lcd.print(unidades[id]);
 
-	// Sensor PZEM 3
-	pzem3Serial.listen();
-	valor = (pzem3.*metodos[id])();
-	lcd.setCursor(0, 3);
-	lcd.print("T: ");
-	lcd.print(valor, 1);
+  // Sensor PZEM 3
+  pzem3Serial.listen();
+  valor = (pzem3.*metodos[id])();
+  lcd.setCursor(0, 3);
+  lcd.print("T: ");
+  lcd.print(valor, 1);
   lcd.print(unidades[id]);
 }
