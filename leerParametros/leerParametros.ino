@@ -17,16 +17,16 @@
  *
  * Y, para cada uno de los módulos PZEM004T:
  * PZEM 1 |  ARDUINO UNO
- * RX 	  -> Digital Pin 2
- * TX 	  -> Digital Pin 3
+ * RX 	  -> Digital Pin 3
+ * TX 	  -> Digital Pin 2
  *
  * PZEM 2 |  ARDUINO UNO
- * RX 	  -> Digital Pin 4
- * TX 	  -> Digital Pin 5
+ * RX 	  -> Digital Pin 5
+ * TX 	  -> Digital Pin 4
  *
  * PZEM 3 |  ARDUINO UNO
- * RX 	  -> Digital Pin 6
- * TX 	  -> Digital Pin 7
+ * RX 	  -> Digital Pin 7
+ * TX 	  -> Digital Pin 6
  * 
  * NOTA: La conexión de estos últimos puede alterar en la instancia de las clases
  * pzemNSerial correspondiente. Pero no de la pantalla, pues para esto, deberá modificar
