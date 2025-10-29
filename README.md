@@ -22,9 +22,9 @@ Este repositorio contiene dos programas para Arduino orientados al trabajo con p
   - **LCD I2C**
     - SDA → A4
     - SCL → A5
-  - **PZEM004Tv30 1**: RX → D2, TX → D3
-  - **PZEM004Tv30 2**: RX → D4, TX → D5
-  - **PZEM004Tv30 3**: RX → D6, TX → D7
+  - **PZEM004Tv30 1**: RX → D3, TX → D2
+  - **PZEM004Tv30 2**: RX → D5, TX → D4
+  - **PZEM004Tv30 3**: RX → D7, TX → D6
 
 > Nota: Puede alterar los pines de cada PZEM por otro digital, al principio de ```leerParámetros/leerParámetros.ino``` pero, al estar usando Arduino UNO, la conexión con la pantalla I2C **debe ser sobre los pines nombrados**.
 ---
