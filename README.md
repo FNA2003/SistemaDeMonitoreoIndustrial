@@ -17,6 +17,7 @@ Este repositorio contiene dos programas para Arduino orientados al trabajo con p
 - 1 Arduino UNO
 - 1 Pantalla LCD I2C 20x4 (PCF8574)
 - 3 Módulos PZEM004Tv30
+- 2 Pulsadores
 
 ### Conexiones:
   - **LCD I2C**
@@ -25,8 +26,15 @@ Este repositorio contiene dos programas para Arduino orientados al trabajo con p
   - **PZEM004Tv30 1**: RX → D3, TX → D2
   - **PZEM004Tv30 2**: RX → D5, TX → D4
   - **PZEM004Tv30 3**: RX → D7, TX → D6
+  - **Botones ~ Pulsadores**
+  	- _Botón siguiente (S1):_
+		- GND(Arduino) -> Entrada S1
+		- Salida S1    -> D10
+	- _Botón anterior (S2):_
+		- GND(Arduino) -> Entrada S2
+		- Salida S2    -> D11
 
-> Nota: Puede alterar los pines de cada PZEM por otro digital, al principio de ```leerParámetros/leerParámetros.ino``` pero, al estar usando Arduino UNO, la conexión con la pantalla I2C **debe ser sobre los pines nombrados**.
+> Nota: Puede alterar los pines de cada PZEM o de los pulsadores por otro digital, al principio de ```leerParámetros/leerParámetros.ino``` pero, al estar usando Arduino UNO, la conexión con la pantalla I2C **debe ser sobre los pines nombrados** (Únicos con I2C).
 ---
 
 ### Librerías necesarias
@@ -59,6 +67,8 @@ Este sketch muestra en la pantalla LCD los siguientes parámetros eléctricos de
 - Frecuencia en cada fase (Hz).
 - Factor de potencia de cada fase.
 
+Para pasar entre los parámetros que se muestre, se debe usar los pulsadores asignados a cada pin para el respectivo comportamiento de "paginación".
+
 ### Sumario: Cómo usar
 
 1. Usá `buscarPantalla.ino` para detectar la dirección I2C de tu pantalla.
@@ -67,5 +77,5 @@ Este sketch muestra en la pantalla LCD los siguientes parámetros eléctricos de
    LiquidCrystal_I2C lcd(0x20, 20, 4); // Cambiá 0x20 si tu pantalla tiene otra dirección
    ```
 3. Cargá `leerParametros.ino` en tu Arduino.
-4. Conecta los sensores y pantallas como se nombró en [Conexiones](#Conexiones).
-5. Ahora, tu pantalla va a mostrar los datos que mida cada sensor.
+4. Conecta los sensores, pulsadores y pantallas como se nombró en [Conexiones](#Conexiones).
+5. Ahora, tu pantalla va a mostrar los datos que mida cada sensor y, vas a poder cambiar los datos mostrados con los pulsadores.

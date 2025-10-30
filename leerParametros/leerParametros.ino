@@ -15,9 +15,17 @@
  *   PZEM 1: RX -> D3, TX -> D2
  *   PZEM 2: RX -> D5, TX -> D4
  *   PZEM 3: RX -> D7, TX -> D6
+ 
+ * Pulsadores~Botones:
+ *   Botón siguiente: 
+ * 		GND(Arduino) -> Entrada S1
+ *						Salida S1    -> D10
+ *   Botón anterior:
+ *		GND(Arduino) -> Entrada S2
+ *						Salida S2    -> D11
 
- * Nota: Las conexiones de cada sensor PZEM puede ser alterada en la instancia 'pzemX'.
- * La pantalla no depende de estos módulos, sino de Wire.h, su pin no puede ser alterado en Arduino UNO.
+ * Nota: Las conexiones de cada sensor PZEM puede ser alterada en la instancia 'pzemX' y, la de los botones en 'PIN_BTN_Y'.
+ * Pero, la pantalla no depende de estos módulos, sino de Wire.h, su pin no puede ser alterado en Arduino UNO.
  */
 #include <LiquidCrystal_I2C.h>
 #include <SoftwareSerial.h>
