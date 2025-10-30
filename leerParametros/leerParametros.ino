@@ -36,6 +36,10 @@ PZEM004Tv30 pzems[] = {
   PZEM004Tv30 (6, 7, 0x00)
 };
 
+// Pines para cambiar los parámetros que se muestran
+const int PIN_BTN_SIG = 10;
+const int PIN_BTN_PRV = 11;
+
 // Estructura usada para definir los parámetros a medir, su nombre y unidad
 typedef struct {
   const char nombre[18];
@@ -54,12 +58,10 @@ const ParametroElectrico ParametrosElectricos[] = {
   { "FACTOR DE POTENCIA", " ",   false, &PZEM004Tv30::pf },
 };
 
-// Intervalo de cambio de parámetros (ms)
-const unsigned long INTERVALO = 5000UL;
-unsigned long ultimoCambio = 0UL;
-
 uint8_t indiceParametros = 0; // Usado para ir variando los parámetros eléctricos a mostrar
 
+uint8_t CANTIDAD_PARAMETROS;
+uint8_t CANTIDAD_SENSORES;
 
 void setup() {
   // Debemos iniciar la instancia de wire para poder ejecutar CrystalI2C
@@ -68,19 +70,36 @@ void setup() {
   // Inicializamos la instancia de la pantalla con la dirección del header
   lcd.init();
   lcd.backlight();
+  
+  // Configuro los botones en modo pull-up para que arduino agregue su propia resistencia
+  pinMode(PIN_BTN_SIG, INPUT_PULLUP);
+  pinMode(PIN_BTN_PRV, INPUT_PULLUP);
+  
+  // Cuento la cantidad parámetros y sensores dados
+  CANTIDAD_PARAMETROS = sizeof(ParametrosElectricos) / sizeof(ParametroElectrico);
+  CANTIDAD_SENSORES = sizeof(pzems) / sizeof(PZEM004Tv30);
+  
+  // Para que muestre algo por defecto, leo el primer elemento de la lista de parámetros
+  mostrarLectura(indiceParametros);
 }
 
 void loop() {
-	// Si ya pasó el intervalo, mostramos la siguiente medición
-	if (millis() - ultimoCambio >= INTERVALO) {
+	// Paso a la próxima "página"
+	if (digitalRead(PIN_BTN_SIG) == LOW) {
+		indiceParametros = (indiceParametros + 1) % CANTIDAD_PARAMETROS;
+		
 		mostrarLectura(indiceParametros);
-   
-		// Ajusto el último intervalo hecho según lo que se tardó en escribir en el lcd
-		ultimoCambio = millis();
 
-    // Recorro la lista de parámetros como un "vector circular"
-		size_t cantidadParametrosElectricos = sizeof(ParametrosElectricos) / sizeof(ParametroElectrico);
-		indiceParametros = (indiceParametros + 1) % cantidadParametrosElectricos;
+		delay(200); // Debounce por software de lectura repetida
+	}
+	// No se podrían pulsar los dos botones simultaneamente, por estom el botón previo solo se valida si no fue pulsado el siguiente
+	else if (digitalRead(PIN_BTN_PRV) == LOW) {
+		indiceParametros --;
+		indiceParametros = (indiceParametros < 0)? CANTIDAD_PARAMETROS - 1 : indiceParametros;
+		
+		mostrarLectura(indiceParametros);
+		
+		delay(200); // Debounce por software de lectura repetida
 	}
 }
 
@@ -108,10 +127,9 @@ void mostrarLectura(uint8_t id) {
     return;
   }
 
-  const uint8_t cantidadSensores = sizeof(pzems) / sizeof(pzems[0]);
   
   // Si no se quiere leer potencia o energía, mostramos cada parámetro individual
-  for (uint8_t i = 0; i < cantidadSensores; i++) { // NOTA; Acá recorremos por índice para usar el número de 'i'
+  for (uint8_t i = 0; i < CANTIDAD_SENSORES; i++) { // NOTA; Acá recorremos por índice para usar el número de 'i'
 
     // Medida de uno del parámetro de uno de los PZEM
     auxiliar = (pzems[i].*ParametrosElectricos[id].metodo)();
