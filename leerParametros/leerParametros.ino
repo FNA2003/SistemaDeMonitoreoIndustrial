@@ -60,6 +60,9 @@ unsigned long ultimoCambio = 0UL;
 
 uint8_t indiceParametros = 0; // Usado para ir variando los parámetros eléctricos a mostrar
 
+uint8_t CANTIDAD_PARAMETROS;
+uint8_t CANTIDAD_SENSORES;
+
 
 void setup() {
   // Debemos iniciar la instancia de wire para poder ejecutar CrystalI2C
@@ -68,6 +71,11 @@ void setup() {
   // Inicializamos la instancia de la pantalla con la dirección del header
   lcd.init();
   lcd.backlight();
+  
+  // Cuento la cantidad parámetros y sensores dados
+  CANTIDAD_PARAMETROS = sizeof(ParametrosElectricos) / sizeof(ParametroElectrico);
+  CANTIDAD_SENSORES = sizeof(pzems) / sizeof(PZEM004Tv30);
+
 }
 
 void loop() {
@@ -79,8 +87,7 @@ void loop() {
 		ultimoCambio = millis();
 
     // Recorro la lista de parámetros como un "vector circular"
-		size_t cantidadParametrosElectricos = sizeof(ParametrosElectricos) / sizeof(ParametroElectrico);
-		indiceParametros = (indiceParametros + 1) % cantidadParametrosElectricos;
+		indiceParametros = (indiceParametros + 1) % CANTIDAD_PARAMETROS;
 	}
 }
 
@@ -108,10 +115,9 @@ void mostrarLectura(uint8_t id) {
     return;
   }
 
-  const uint8_t cantidadSensores = sizeof(pzems) / sizeof(pzems[0]);
-  
+
   // Si no se quiere leer potencia o energía, mostramos cada parámetro individual
-  for (uint8_t i = 0; i < cantidadSensores; i++) { // NOTA; Acá recorremos por índice para usar el número de 'i'
+  for (uint8_t i = 0; i < CANTIDAD_SENSORES; i++) { // NOTA; Acá recorremos por índice para usar el número de 'i'
 
     // Medida de uno del parámetro de uno de los PZEM
     auxiliar = (pzems[i].*ParametrosElectricos[id].metodo)();
