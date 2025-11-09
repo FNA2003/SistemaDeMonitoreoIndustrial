@@ -1,4 +1,4 @@
-## Monitor de Potencia con Pantalla LCD I2C
+## Monitor
 
 Este repositorio contiene dos programas para Arduino orientados al trabajo con pantallas LCD I2C (basadas en el chip **PCF8574**), junto a módulos de medición **PZEM004Tv30**. Permiten mostrar parámetros eléctricos trifásicos en un carrousel y, al finalizar la vuelta, una tarjeta extra con RPM (sensor Hall) y temperaturas.
 
